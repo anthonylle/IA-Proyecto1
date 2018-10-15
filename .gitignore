@@ -218,3 +218,8 @@ pip-selfcheck.json
 
 
 # End of https://www.gitignore.io/api/pycharm,python,django
+
+
+\.DS_Store
+
+\.idea/

@@ -83,6 +83,16 @@ class DataFrame():
         return column
     
     # ------------------------------------------------------------
+    # input: string with tag column
+    # function: get unique values in a column
+    # output: list with the uniques values  
+    #         - each value has this forma -> [value] 
+    def unique_values_in_column(self, tag_column):
+        df = self.get_column_by_label(tag_column)
+        df = df.drop_duplicates()
+        df = df.iloc[:,:].values
+        return df
+    # ------------------------------------------------------------
     # input: none 
     # function: get all values in data_frame
     # output: values in data_set
@@ -114,6 +124,14 @@ class DataFrame():
     # output: return columns
     def get_columns_names(self):
         return self.data_set.columns
+    
+    # ------------------------------------------------------------
+    # input: pandas 's data frame 
+    # function: join my data set whit other
+    # output: none
+    def join_data(self,left_data_set):
+        temp_data_set = self.data_set.join( left_data_set )
+        self.data_set = temp_data_set
     
     # ------------------------------------------------------------
     # input: none
@@ -155,4 +173,5 @@ class DataFrame():
     def size(self):
         # this get the count rows
         return self.data_set.shape[0]
-        
+    
+    

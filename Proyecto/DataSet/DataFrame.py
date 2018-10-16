@@ -49,6 +49,14 @@ class DataFrame():
         return temp
     
     # ------------------------------------------------------------
+    # input: range of rows a and b
+    # function: get a sub data set 
+    # output: a dataFrame
+    def sub_data_set(self, a, b ):
+        temp = self.data_set.iloc[a:b, :]
+        return temp
+    
+    # ------------------------------------------------------------
     # input: string with tag column
     # function: get some column with tag column
     # output: date_frame with the column
@@ -140,4 +148,11 @@ class DataFrame():
         # Close the Pandas Excel writer and output the Excel file.
         writer.save()
     
-    
+    # ------------------------------------------------------------
+    # input: none
+    # function: get size from data_set
+    # output: int with data_set size     
+    def size(self):
+        # this get the count rows
+        return self.data_set.shape[0]
+        

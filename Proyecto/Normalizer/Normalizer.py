@@ -55,7 +55,8 @@ class Normalizer():
     # function: 
     # output: 
     def get_first_row(self, data_frame):
-        row = data_frame.iloc[:,:].values  
+        print(data_frame.columns)
+        row = data_frame.data_set.iloc[:,:].values
         return row[0,:]
         
     # ------------------------------------------------------------

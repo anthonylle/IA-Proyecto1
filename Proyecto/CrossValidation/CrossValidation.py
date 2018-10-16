@@ -4,8 +4,8 @@ from DataSet.DataFrame import DataFrame
 
 class CrossValidation():
     
-    def __init__(self,k, ):
-        self.folds = Folds(k, "Exited")
+    def __init__(self,k, output_col ):
+        self.folds = Folds(k, output_col)
         
     # input: object of DataFrame class
     # function: genered the folds

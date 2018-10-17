@@ -49,6 +49,14 @@ class DataFrame():
         return temp
     
     # ------------------------------------------------------------
+    # input: range of rows a and b
+    # function: get a sub data set 
+    # output: a dataFrame
+    def sub_data_set(self, a, b ):
+        temp = self.data_set.iloc[a:b, :]
+        return temp
+    
+    # ------------------------------------------------------------
     # input: string with tag column
     # function: get some column with tag column
     # output: date_frame with the column
@@ -74,6 +82,16 @@ class DataFrame():
         self.drop_columns_by_name([tag])
         return column
     
+    # ------------------------------------------------------------
+    # input: string with tag column
+    # function: get unique values in a column
+    # output: list with the uniques values  
+    #         - each value has this forma -> [value] 
+    def unique_values_in_column(self, tag_column):
+        df = self.get_column_by_label(tag_column)
+        df = df.drop_duplicates()
+        df = df.iloc[:,:].values
+        return df
     # ------------------------------------------------------------
     # input: none 
     # function: get all values in data_frame
@@ -108,6 +126,14 @@ class DataFrame():
         return self.data_set.columns
     
     # ------------------------------------------------------------
+    # input: pandas 's data frame 
+    # function: join my data set whit other
+    # output: none
+    def join_data(self,left_data_set):
+        temp_data_set = self.data_set.join( left_data_set )
+        self.data_set = temp_data_set
+    
+    # ------------------------------------------------------------
     # input: none
     # function: print head
     # output: none     
@@ -139,5 +165,13 @@ class DataFrame():
         self.data_set.to_excel(writer, sheet_name='Sheet1')
         # Close the Pandas Excel writer and output the Excel file.
         writer.save()
+    
+    # ------------------------------------------------------------
+    # input: none
+    # function: get size from data_set
+    # output: int with data_set size     
+    def size(self):
+        # this get the count rows
+        return self.data_set.shape[0]
     
     

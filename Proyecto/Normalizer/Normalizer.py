@@ -3,7 +3,9 @@ import numpy as np
 import pandas as pd
 #funcion para pasar valores numericos
 from scipy.stats import zscore
+from Proyecto.DataSet.DataFrame import DataFrame
 import math as m
+import copy as c
 
 class Normalizer():
     
@@ -28,7 +30,8 @@ class Normalizer():
     # function: 
     # output:
     def normalizer_categorical_values(self,current_column, column_name):
-        one_hot = pd.get_dummies( current_column[ column_name ])
+        one_hot = pd.get_dummies( current_column[column_name])
+        self.dumies_tags(current_column, column_name)
         return one_hot  
     
     # -----------------------------------------------------------
@@ -40,8 +43,8 @@ class Normalizer():
         _type = self.checker_type(column_value)
         
         if _type == 1:
-            return self.normalizer_categorical_values(current_column, column_name)
-        
+            # return self.normalizer_categorical_values(current_column, column_name)
+            return self.one_hot(current_column, column_name)
         elif _type == 2:
             return self.z_score(current_column, column_name)
             #return current_column.apply(zscore)
@@ -165,6 +168,7 @@ class Normalizer():
         n = data_set.shape[0]
         media = sum / n
         Xs = data_set.iloc[:, :].values
+        # nparray to list
         Xs = Xs.tolist()
         stand_desviation = self.stand_deviation(n, media, Xs)
         data = self.z_score_formula(Xs, media, stand_desviation)
@@ -173,3 +177,42 @@ class Normalizer():
 
 
     # ----------------------One hot---------------------------
+    # ------------------------------------------------------------------
+    # input:
+    # function:
+    # output:
+    # columns have de form [value],...,[value]]
+    def get_dictionary_tasg(self, column_classes):
+        dictionary = {}
+        for item in column_classes:
+            dictionary[item[0]] = 0
+        return dictionary
+
+    # ------------------------------------------------------------------
+    # input:
+    # function:
+    # output:
+    def  biuld_dumies(self, data_list, dictionary_classes):
+        dumies = []
+        for item in data_list:
+            classes_copy = c.deepcopy(dictionary_classes)
+            classes_copy[item[0]] = 1
+            dumies += [classes_copy]
+        return dumies
+
+    # ------------------------------------------------------------------
+    # input:
+    # function:
+    # output:
+    def dumies_tags(self, data_set, column_tag):
+        classes = data_set.unique_values_in_column(column_tag)
+        classes = classes.tolist()
+        return self.get_dictionary_tasg(classes)
+
+    def one_hot(self, data_set, column_tag ):
+        df = DataFrame()
+        df.data_set = data_set
+        data_list = df.get_all_values().tolist()
+        dumies = self.dumies_tags(df, column_tag)
+        dumies = self.biuld_dumies(data_list, dumies)
+        return pd.DataFrame(dumies)

@@ -2,6 +2,7 @@ from Proyecto.Normalizer.Normalizer import Normalizer
 from Proyecto.DataSet.DataFrame import DataFrame
 from Proyecto.Folds.Folds import Folds
 from Proyecto.KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
+import pandas as pd
 def normalizer_data():
     
     # create data_frame to idenpendents_vars
@@ -62,4 +63,22 @@ def pruebaZScore():
     df = column.data_set
     column.data_set = normalizer.normalize_data(df)
 
-pruebaFolds()
+def prubasOneHot():
+    data = DataFrame()
+    # create data_frame to objective_var
+    column = DataFrame()
+    # create normalizer
+    normalizer = Normalizer()
+    data.load_data_set('breast-cancer-wisconsin-data.csv')
+
+    # drop innecesary columns in the idenpendents_vars
+    data.drop_columns_by_name(["id"])
+    # take a number column
+    column.data_set = data.cut_column("diagnosis")
+    # normalizer data
+    df = column.data_set
+    column.view()
+    column.data_set = normalizer.normalize_data(df)
+    column.view()
+
+prubasOneHot()

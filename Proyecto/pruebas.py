@@ -1,7 +1,7 @@
-from Normalizer.Normalizer import Normalizer
-from DataSet.DataFrame import DataFrame
-from Folds.Folds import Folds
-from CrossValidation.CrossValidation import CrossValidation
+from Proyecto.Normalizer.Normalizer import Normalizer
+from Proyecto.DataSet.DataFrame import DataFrame
+from Proyecto.Folds.Folds import Folds
+from Proyecto.CrossValidation.CrossValidation import CrossValidation
 def normalizer_data():
     
     # create data_frame to idenpendents_vars

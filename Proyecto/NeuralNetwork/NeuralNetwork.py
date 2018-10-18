@@ -1,8 +1,8 @@
-from tensorflow.nn import relu
+from tensorflow.nn import relu, sigmoid, softmax
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-from tensorflow.keras.losses import MSE
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.losses import MSE, binary_crossentropy
+from tensorflow.keras.optimizers import Adamax, Adam, SGD
 from Proyecto.DataSet.DataFrame import DataFrame
 from Proyecto.Normalizer.Normalizer import Normalizer
 from Proyecto.Model.Model import Model
@@ -34,24 +34,28 @@ class NeuralNetwork(Model):
         self.input_vars.data_set = normalizer.normalizer_data(data)
         data = self.output_var.data_set
         self.output_var.data_set = normalizer.normalizer_data(data)
-
+        '''
         print(self.output_var.data_set)
         print(self.input_vars.data_set)
-
+        '''
 
     def assign_data(self):
-        None#self.x_train_data = self.input_vars.
+        self.x_train_data = self.input_vars.sub_data_set(0,400).values
+        # print("X_train_data: ", self.x_train_data)
+        self.y_train_data = self.output_var.sub_data_set(0,400).values
+        self.x_test_data = self.input_vars.sub_data_set(400,569).values
+        self.y_test_data = self.output_var.sub_data_set(400, 569).values
 
     def create_model(self):
         self.model = Sequential()
-        self.model.compile(optimizer=SGD, loss=MSE)
-        no_units = 1 # number of units (neurons) in a layer
-        no_columns = self.input_vars.data_set.columns # number of columns in the input data to train ToDo x_train_data
+        self.model.compile(optimizer=Adamax(), loss=binary_crossentropy)
+        no_units = 2 # number of units (neurons) in a layer
+        # number of columns in the input data to train ToDo x_train_data
         # ToDo create loop for adding new layers to the model
-        self.model.add(Dense(no_units, input_shape=no_columns, activation=relu))
+        self.model.add(Dense(no_units, activation=relu))
 
     def train_model(self):
-        self.model.fit(self.x_train_data,self.y_train_data, validation_data=(self.x_test_data, self.y_test_data))
+        self.model.fit(self.x_train_data,self.y_train_data, validation_data=(self.x_test_data, self.y_test_data), batch_size=57)
 
     def evaluate_model(self):
         pass
@@ -60,5 +64,8 @@ class NeuralNetwork(Model):
 instance = NeuralNetwork()
 instance.load_data()
 instance.normalize_data()
-#instance.create_model()
-#instance.train_model()
+instance.assign_data()
+instance.create_model()
+instance.train_model()
+accuracy = instance.model.evaluate(instance.x_test_data, instance.y_test_data)
+print("Accuracy: ", accuracy)

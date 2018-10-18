@@ -43,8 +43,8 @@ class Normalizer():
             return self.normalizer_categorical_values(current_column, column_name)
         
         elif _type == 2:
-            self.z_score(current_column, column_name)
-            return current_column.apply(zscore)  
+            return self.z_score(current_column, column_name)
+            #return current_column.apply(zscore)
         
         else:
             print("column doesn't have valid type")
@@ -97,10 +97,7 @@ class Normalizer():
         
         for i in range(len(first_row)):
             current_col = self.get_current_column(data_frame,i)
-
             current_col = self.normalizer_column(first_row[i], current_col, columns_names[i])
-            print("\n-------------------------la del sistema")
-            print(current_col)
             temp_df= self.join_data(temp_df, current_col)
         return temp_df
 
@@ -109,7 +106,7 @@ class Normalizer():
     def square_sum(self, media, Xs):
         sum = 0
         for i in range(len(Xs)):
-            sub = Xs[i, :] - media
+            sub = Xs[i][0] - media
             temp = pow(sub, 2)
             sum = sum + temp
         return sum
@@ -127,27 +124,30 @@ class Normalizer():
         scores = []
 
         for i in range(len(Xs)):
-            result = (Xs[i, :] - media) / stand_desviation
-            scores += [result]
+            result = (Xs[i][0] - media) / stand_desviation
+            scores += [[result]]
         return scores
 
     def zs_column(self, data, name):
-        dic = {name: data}
-        df = pd.DataFrame.from_dict(dic)
+
+        df = pd.DataFrame(data, columns=[name])
         return df
 
+    def series_toInt(self, pd_series):
+        ltemp = pd_series.tolist()
+        return ltemp[0]
+
+
     def z_score(self, data_set, column_name):
-        print(data_set)
-        sum = data_set.sum()
+        sum = self.series_toInt(data_set.sum())
         n = data_set.shape[0]
         media = sum / n
         Xs = data_set.iloc[:, :].values
-        print("-----------------------aqui va la nuestra")
+        Xs = Xs.tolist()
         stand_desviation = self.stand_deviation(n, media, Xs)
         data = self.z_score_formula(Xs, media, stand_desviation)
         df = self.zs_column(data, column_name)
-        print("printer")
-        print(df)
         return df
+
 
     # --------------One hot---------------------------

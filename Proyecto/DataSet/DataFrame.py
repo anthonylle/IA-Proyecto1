@@ -13,7 +13,7 @@ class DataFrame():
     # function: load a csv file from src/data folder 
     # output: none
     def load_data_set(self, file_name):
-        self.data_set = pd.read_csv("../src/data/"+file_name)
+        self.data_set = pd.read_csv('./src/data/'+file_name)
 
     
     # ------------------------------------------------------------
@@ -43,7 +43,7 @@ class DataFrame():
     # input: int index of column
     # function: get some column with index column
     # output: date_frame with the column
-    def get_column_by_index(self, index ):
+    def get_column_by_index(self, index):
         temp = self.data_set.iloc[:, index]
         temp=temp.to_frame()
         return temp
@@ -52,7 +52,7 @@ class DataFrame():
     # input: range of rows a and b
     # function: get a sub data set 
     # output: a dataFrame
-    def sub_data_set(self, from_index, to_index ):
+    def sub_data_set(self, from_index, to_index):
         temp = self.data_set.iloc[from_index:to_index, :]
         return temp
     

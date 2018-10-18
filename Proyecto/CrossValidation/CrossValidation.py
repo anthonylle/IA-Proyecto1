@@ -1,5 +1,5 @@
-from Folds.Folds import Folds
-from DataSet.DataFrame import DataFrame
+from Proyecto.Folds.Folds import Folds
+from Proyecto.DataSet.DataFrame import DataFrame
 
 
 class CrossValidation():

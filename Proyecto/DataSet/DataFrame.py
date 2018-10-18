@@ -13,8 +13,8 @@ class DataFrame():
     # function: load a csv file from src/data folder 
     # output: none
     def load_data_set(self, file_name):
-        self.data_set = pd.read_csv("./src/data/"+file_name)
-        
+        self.data_set = pd.read_csv("../src/data/"+file_name)
+
     
     # ------------------------------------------------------------
     # input: - list of names columns to drop

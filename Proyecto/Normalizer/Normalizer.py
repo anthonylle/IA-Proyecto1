@@ -55,7 +55,7 @@ class Normalizer():
     # function: 
     # output: 
     def get_first_row(self, data_frame):
-        row = data_frame.iloc[:,:].values  
+        row = data_frame.iloc[:,:].values
         return row[0,:]
         
     # ------------------------------------------------------------
@@ -63,7 +63,6 @@ class Normalizer():
     # function: 
     # output: 
     def temporal_data_frame(self, data_frame):
-        
         columns = data_frame.columns
         temp = data_frame.drop(columns,axis = 1)
         return temp

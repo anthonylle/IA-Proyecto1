@@ -1,4 +1,4 @@
-from DataSet.DataFrame import DataFrame
+from Proyecto.DataSet.DataFrame import DataFrame
 import math
 
 # this class help the cross_validation

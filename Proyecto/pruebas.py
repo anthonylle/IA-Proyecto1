@@ -1,7 +1,7 @@
 from Proyecto.Normalizer.Normalizer import Normalizer
 from Proyecto.DataSet.DataFrame import DataFrame
 from Proyecto.Folds.Folds import Folds
-from Proyecto.CrossValidation.CrossValidation import CrossValidation
+from Proyecto.KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
 def normalizer_data():
     
     # create data_frame to idenpendents_vars
@@ -43,10 +43,8 @@ def pruebaFolds():
     
     idenpendents_vars.join_data(objective_var.data_set)
     
-    cv = CrossValidation( 10, "Exited")
-    
-    cv.genered_folds(idenpendents_vars)
-    cv.k_fold_validation()
+    cv = KFoldCrossValidation(10, "Exited")
+    cv.k_fold_validation(idenpendents_vars)
 
 def pruebaZScore():
     data = DataFrame()
@@ -64,4 +62,4 @@ def pruebaZScore():
     df = column.data_set
     column.data_set = normalizer.normalize_data(df)
 
-pruebaZScore()
+pruebaFolds()

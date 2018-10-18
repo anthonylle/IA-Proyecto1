@@ -13,8 +13,8 @@ class DataFrame():
     # function: load a csv file from src/data folder 
     # output: none
     def load_data_set(self, file_name):
-        self.data_set = pd.read_csv("./src/data/"+file_name)
-        
+        self.data_set = pd.read_csv('./src/data/'+file_name)
+
     
     # ------------------------------------------------------------
     # input: - list of names columns to drop
@@ -43,7 +43,7 @@ class DataFrame():
     # input: int index of column
     # function: get some column with index column
     # output: date_frame with the column
-    def get_column_by_index(self, index ):
+    def get_column_by_index(self, index):
         temp = self.data_set.iloc[:, index]
         temp=temp.to_frame()
         return temp
@@ -52,8 +52,8 @@ class DataFrame():
     # input: range of rows a and b
     # function: get a sub data set 
     # output: a dataFrame
-    def sub_data_set(self, a, b ):
-        temp = self.data_set.iloc[a:b, :]
+    def sub_data_set(self, from_index, to_index):
+        temp = self.data_set.iloc[from_index:to_index, :]
         return temp
     
     # ------------------------------------------------------------
@@ -71,7 +71,7 @@ class DataFrame():
     # output: none   
     def drop_all_columns(self):
         columns = self.data_set.columns
-        self.data_set = self.data_set.drop(columns,axis = 1)
+        self.data_set = self.data_set.drop(columns, axis = 1)
         
     # ------------------------------------------------------------
     # input: - string with column tag 
@@ -173,5 +173,3 @@ class DataFrame():
     def size(self):
         # this get the count rows
         return self.data_set.shape[0]
-    
-    

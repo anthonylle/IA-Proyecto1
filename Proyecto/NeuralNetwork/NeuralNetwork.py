@@ -31,9 +31,9 @@ class NeuralNetwork(Model):
     def normalize_data(self):
         normalizer = Normalizer()
         data = self.input_vars.data_set
-        self.input_vars.data_set = normalizer.normalizer_data(data)
+        self.input_vars.data_set = normalizer.normalize_data(data)
         data = self.output_var.data_set
-        self.output_var.data_set = normalizer.normalizer_data(data)
+        self.output_var.data_set = normalizer.normalize_data(data)
         '''
         print(self.output_var.data_set)
         print(self.input_vars.data_set)

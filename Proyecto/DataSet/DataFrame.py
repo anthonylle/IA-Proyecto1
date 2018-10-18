@@ -52,8 +52,8 @@ class DataFrame():
     # input: range of rows a and b
     # function: get a sub data set 
     # output: a dataFrame
-    def sub_data_set(self, a, b ):
-        temp = self.data_set.iloc[a:b, :]
+    def sub_data_set(self, from_index, to_index ):
+        temp = self.data_set.iloc[from_index:to_index, :]
         return temp
     
     # ------------------------------------------------------------
@@ -71,7 +71,7 @@ class DataFrame():
     # output: none   
     def drop_all_columns(self):
         columns = self.data_set.columns
-        self.data_set = self.data_set.drop(columns,axis = 1)
+        self.data_set = self.data_set.drop(columns, axis = 1)
         
     # ------------------------------------------------------------
     # input: - string with column tag 
@@ -173,5 +173,3 @@ class DataFrame():
     def size(self):
         # this get the count rows
         return self.data_set.shape[0]
-    
-    

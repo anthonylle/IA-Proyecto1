@@ -17,12 +17,12 @@ def normalizer_data():
 
     objective_var.data_set = idenpendents_vars.cut_column("Exited")
     
-    #normalizer data
-    data =idenpendents_vars.data_set
-    idenpendents_vars.data_set = normalizer.normalizer_data(data)
+    # normalizer data
+    data = idenpendents_vars.data_set
+    idenpendents_vars.data_set = normalizer.normalize_data(data)
     
     data = objective_var.data_set
-    objective_var.data_set = normalizer.normalizer_data(data)
+    objective_var.data_set = normalizer.normalize_data(data)
 
 
 def pruebaFolds():
@@ -39,7 +39,7 @@ def pruebaFolds():
     
     #normalizer data
     data =idenpendents_vars.data_set
-    idenpendents_vars.data_set = normalizer.normalizer_data(data)
+    idenpendents_vars.data_set = normalizer.normalize_data(data)
     
     idenpendents_vars.join_data(objective_var.data_set)
     

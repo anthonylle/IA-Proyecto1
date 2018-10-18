@@ -88,13 +88,13 @@ class Normalizer():
     # input:
     # function: 
     # output:         
-    def normalizer_data(self,data_frame):
+    def normalize_data(self, data_frame):
         
         first_row = self.get_first_row(data_frame)
         temp_df= self.temporal_data_frame(data_frame)
         columns_names = data_frame.columns
         
-        for i in range( len( first_row ) ):
+        for i in range(len(first_row)):
             current_col = self.get_current_column(data_frame,i)
 
             current_col = self.normalizer_column(first_row[i], current_col, columns_names[i])

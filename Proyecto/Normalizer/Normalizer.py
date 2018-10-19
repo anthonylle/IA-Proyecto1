@@ -98,7 +98,13 @@ class Normalizer():
         columns_names = data_frame.columns
         
         for i in range(len(first_row)):
+            #print(data_frame)
             current_col = self.get_current_column(data_frame,i)
+            #print("sin normalixar: ", columns_names[i])
+            #print(current_col)
             current_col = self.normalizer_column(first_row[i], current_col, columns_names[i])
-            temp_df= self.join_data(temp_df, current_col)
+            #print("normalizado: ", columns_names[i])
+            #print(current_col)
+            temp_df = self.join_data(temp_df, current_col)
+
         return temp_df

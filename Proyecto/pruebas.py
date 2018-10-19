@@ -13,7 +13,6 @@ def prueba():
 
     input.load_data_set("breast-cancer-wisconsin-data.csv")
     # drop innecesary columns in the input
-    print(input.get_columns_names())
     input.view()
     input.drop_columns_by_name(["id"])
     input.view()

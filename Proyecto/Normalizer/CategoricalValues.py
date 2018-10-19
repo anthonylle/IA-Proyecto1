@@ -8,12 +8,12 @@ import copy as c
 
 class CategoricalValues():
 
-    # ----------------------One hot---------------------------
+    # ----------------------One hot-------------------------------------
     # ------------------------------------------------------------------
-    # input:
-    # function:
-    # output:
-    # columns have de form [value],...,[value]]
+    # input: list with the clases in the column
+    # function: create a dictionary with ceros values
+    # output: dictionary
+    # columns have de form ['value'],...,['value']]
     def get_dictionary_tasg(self, column_classes):
         dictionary = {}
         for item in column_classes:
@@ -21,9 +21,10 @@ class CategoricalValues():
         return dictionary
 
     # ------------------------------------------------------------------
-    # input:
-    # function:
-    # output:
+    # input: - data_list: a list with the column values
+    #        - a dictionary with the classes keys
+    # function: build a matrix with the dumies columns
+    # output: a matrix
     def  biuld_dumies(self, data_list, dictionary_classes):
         dumies = []
         for item in data_list:
@@ -41,6 +42,10 @@ class CategoricalValues():
         classes = classes.tolist()
         return self.get_dictionary_tasg(classes)
 
+    # ------------------------------------------------------------------
+    # input:
+    # function:
+    # output:
     def one_hot(self, data_set, column_tag ):
         df = DataFrame()
         df.data_set = data_set

@@ -6,6 +6,9 @@ from tensorflow.keras.optimizers import Adamax, Adam, SGD
 from Proyecto.DataSet.DataFrame import DataFrame
 from Proyecto.Normalizer.Normalizer import Normalizer
 from Proyecto.Model.Model import Model
+import os
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 class NeuralNetwork(Model):
@@ -46,9 +49,9 @@ class NeuralNetwork(Model):
         self.x_test_data = self.input_vars.sub_data_set(400,569).values
         self.y_test_data = self.output_var.sub_data_set(400, 569).values
 
-    def create_model(self):
+    def create_model(self, kwargs):
         self.model = Sequential()
-        self.model.compile(optimizer=Adamax(), loss=binary_crossentropy)
+        self.model.compile(optimizer=Adamax(), loss=MSE)
         no_units = 2 # number of units (neurons) in a layer
         # number of columns in the input data to train ToDo x_train_data
         # ToDo create loop for adding new layers to the model
@@ -65,7 +68,7 @@ instance = NeuralNetwork()
 instance.load_data()
 instance.normalize_data()
 instance.assign_data()
-instance.create_model()
+instance.create_model(kwargs=None)
 instance.train_model()
 accuracy = instance.model.evaluate(instance.x_test_data, instance.y_test_data)
 print("Accuracy: ", accuracy)

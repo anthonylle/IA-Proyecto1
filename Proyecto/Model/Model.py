@@ -8,7 +8,11 @@ class Model(metaclass=ABCMeta):
     def normalize_data(self):
         pass
 
-    def create_model(self):
+    def create_model(self, *kwargs):
+        '''
+        :param args:
+        :return:
+        '''
         pass
 
     def train_model(self):

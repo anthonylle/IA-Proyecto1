@@ -52,4 +52,4 @@ def prueba2():
     cv = KFoldCrossValidation(10, "Exited")
     cv.k_fold_validation(input)
 
-prueba2()
+prueba()

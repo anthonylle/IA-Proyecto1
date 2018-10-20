@@ -19,7 +19,7 @@ class KFoldCrossValidation():
 
     def validated_folds(self):
         self.folds.check_classes();
-        pass
+
 
     # input: object of DataFrame class
     # function: cross validation function

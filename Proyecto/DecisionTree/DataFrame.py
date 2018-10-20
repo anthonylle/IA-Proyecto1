@@ -2,9 +2,10 @@
 import pandas as pd
 
 class DataFrame():
-
+    
+    #------ Variables -------      
     data_set = None
-
+    
     #------- functions
     
     #-----------------------------------------------------------
@@ -12,7 +13,7 @@ class DataFrame():
     # function: load a csv file from src/data folder 
     # output: none
     def load_data_set(self, file_name):
-        self.data_set = pd.read_csv('./src/data/'+file_name, keep_default_na=False)
+        self.data_set = pd.read_csv('../src/data/'+file_name)
 
     
     # ------------------------------------------------------------
@@ -96,7 +97,7 @@ class DataFrame():
     # function: get all values in data_frame
     # output: values in data_set
     def get_all_values(self):
-        values = self.data_set.iloc[:,:].values
+        values  = self.data_set.iloc[:,:].values 
         return values
     
     # ------------------------------------------------------------
@@ -113,8 +114,8 @@ class DataFrame():
     # function: get specific colu values
     # output: row values in  data
     def get_column_values(self, column):
-        values = self.data_set.iloc[:, :].values
-        values = values[:, column]
+        values = self.data_set.iloc[:,:].values
+        values = values[:,column]
         return values
     
     # ------------------------------------------------------------
@@ -126,20 +127,12 @@ class DataFrame():
     
     # ------------------------------------------------------------
     # input: pandas 's data frame 
-    # function: join my data set whit other "all columns in data set"
+    # function: join my data set whit other
     # output: none
-    def join_data(self, left_data_set):
+    def join_data(self,left_data_set):
         temp_data_set = self.data_set.join( left_data_set )
         self.data_set = temp_data_set
-
-    # ------------------------------------------------------------
-    # input: pandas 's data frame
-    # function: concat my data set whit other "all my rows other's rows "
-    # output: none
-    def concat_data(self, under_data_set):
-        temp_data_set = [self.data_set, under_data_set]
-        self.data_set = pd.concat(temp_data_set)
-
+    
     # ------------------------------------------------------------
     # input: none
     # function: print head

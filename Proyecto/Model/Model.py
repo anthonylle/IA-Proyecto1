@@ -11,8 +11,8 @@ class Model(metaclass=ABCMeta):
     def create_model(self):
         pass
 
-    def train_model(self):
+    def train_model(self, x, y):
         pass
 
-    def evaluate_model(self):
+    def evaluate_model(self, x, y):
         pass

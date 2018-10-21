@@ -54,6 +54,7 @@ class Folds():
             self.folds += [fold]
             from_index += self.fold_size
             to_index += self.fold_size
+
         self.balance_last_fold(k)
 
     # ------------------------------------------------------------------------------------------------------------------

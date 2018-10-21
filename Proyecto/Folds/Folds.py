@@ -32,9 +32,11 @@ class Folds():
         if last_fold != []:
             fold = c.deepcopy(last_fold[0])
             self.folds[k-1].concat_data(fold.data_set)
-            #print("este es el penultimo tiene cnt de filas: "+str(self.folds[k-1].size()))
-            #self.folds[k - 1].view_head()
-            #self.folds[k-1].to_csv("gg.csv")
+            print("este es el penultimo tiene cnt de filas: "+str(self.folds[k-1].size()))
+            self.folds[k - 1].view_head()
+            print("este es el ultimo tiene cnt de filas: " + str(self.folds[k ].size()))
+            self.folds[k].view_head()
+            self.folds[k].to_csv("gg.csv")
             del(self.folds[k])
 
 

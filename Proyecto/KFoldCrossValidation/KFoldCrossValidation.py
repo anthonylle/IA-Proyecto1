@@ -1,6 +1,6 @@
 from Folds.Folds import Folds
 from Model.Model import Model
-import pandas as pd
+
 class KFoldCrossValidation():
 
     def __init__(self, k, output_column):

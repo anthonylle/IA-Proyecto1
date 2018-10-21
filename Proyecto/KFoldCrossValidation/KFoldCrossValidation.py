@@ -1,5 +1,8 @@
 from Folds.Folds import Folds
 from Model.Model import Model
+import pandas as pd
+
+from Proyecto.Normalizer.CategoricalValues import CategoricalValues
 
 class KFoldCrossValidation():
 
@@ -26,19 +29,21 @@ class KFoldCrossValidation():
     # input: a object of DataFrame class
     # function: cross validation function
     # output: none
-    def k_fold_validation(self,data_frame,model = Model()):
+    def k_fold_validation(self, data_frame, model=Model()):
 
         self.genered_folds(data_frame)
 
         for i in range(self.folds.size()):
             x_training, y_training, x_test, y_test = self.get_data_sets(i)
-
+            cv = CategoricalValues()
+            y_training = cv.one_hot2(y_training,self.output_column)
             # training section
-            model.train_model(x_training, y_training)
+            model.train_model(x_training.iloc[:,:].values, y_training.iloc[:,:].values)
 
             # test section
-            #error = model.evaluate_model(x_test, y_test)
-            error = 3
+            y_test = cv.one_hot2(y_test,self.output_column)
+            error = model.evaluate_model(x_test.iloc[:,:], y_test.iloc[:,:])
+            #error = 3
             self.errors.append(error)
 
         self.mean_error = sum(self.errors) / self.k
@@ -121,7 +126,7 @@ class KFoldCrossValidation():
     def prediction(self, dataframe, model = Model()):
 
         x_predict, y_predict = self.split_data(dataframe)
-        Ys = model.predict(x_predict, y_predict)
+        Ys = model.predict(x_predict)
         predict_data = Ys.tolist()
 
         new_column = pd.DataFrame(predict_data, columns=["Predict_column"])

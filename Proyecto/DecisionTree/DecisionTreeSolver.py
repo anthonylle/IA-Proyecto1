@@ -1,6 +1,8 @@
 import pandas as pd
 from DataFrame import DataFrame
+from DecisionTree import DecisionTree 
 #from Proyecto.DataSet.DataFrame import DataFrame
+import random
 import math
 import csv
 
@@ -15,6 +17,14 @@ class DecisionTreeSolver:
             result += (1-prob)*math.log((1-prob), 2)
             result *= -1
             return result
+
+    def avg_attribute(self, dataset, attribute):
+        avgValue = 0
+        for row in dataset.get_all_values():
+            avgValue += row[column]
+        avgValue /= dataset.size()
+        return avgValue
+
         
     def information_gain(self, dataset, attribute):
         column = 0
@@ -23,10 +33,7 @@ class DecisionTreeSolver:
                 break
             column += 1
             
-        avgValue = 0
-        for row in dataset.get_all_values():
-            avgValue += row[column]
-        avgValue /= dataset.size()
+        avgValue = self.avg_attribute(dataset, attribute)
 
         numBenign = 0
         for row in dataset.get_all_values():
@@ -63,6 +70,79 @@ class DecisionTreeSolver:
                 continue
         return highestIG
 
+    def positive_examples(self, dataset, attribute):
+        avgValue = self.avg_attribute(dataset, attribute)
+        result = []
+        for row in dataset.get_all_values():
+            if row[1] == 'B' and row[dataset.index(attribute)] >= avgValue:
+                result += [row]
+        return result
+
+    def negative_examples(self, dataset, attribute):
+        avgValue = self.avg_attribute(dataset, attribute)
+        result = []
+        for row in dataset.get_all_values():
+            if row[1] == 'M' and row[dataset.index(attribute)] < avgValue:
+                result += [row]
+        return result
+
+    def build_tree(self, dataset):
+        attributes = dataset.get_columns_names()[2:len(dataset.get_columns_names())-1]
+        new_tree = DecisionTree()
+
+        while attributes != []:
+            selected_att = self.select_attribute(dataset)
+            avg_value = self.avg_attribute(dataset, random_attrib)
+            if new_tree.root == None:
+                new_tree.set_root(selected_att, avg_value)
+            elif new_tree.root.children == []:
+                if avg_value < new_tree.root.avg_value:
+                    new_dataset = self.positive_examples(dataset, selected_att)
+                    new_tree.root.children[0] = Node(selected_att, avg_value)
+                else:
+                    new_dataset = self.negative_examples(dataset, selected_att)
+                    new_tree.root.children[1] = Node(selected_att, avg_value)
+            else:
+                if avg_value < new_tree.root.avg_value:
+                    new_dataset = self.positive_examples(dataset, selected_att)
+                    if avg_value < new_tree.root.children[0].avg_value:
+                        new_new_dataset = self.positive_examples(new_dataset, selected_att)
+                        new_tree.root.children[0].children[0] = Node(selected_att, avg_value)
+                    else:
+                        new_new_dataset = self.negative_examples(new_dataset, selected_att)
+                        new_tree.root.children[0].children[1] = Node(selected_att, avg_value)
+                else:
+                    new_dataset = self.negative_examples(dataset, selected_att)
+                    if avg_value < new_tree.root.children[1].avg_value:
+                        new_new_dataset = self.positive_examples(new_dataset, selected_att)
+                        new_tree.root.children[1].children[0] = Node(selected_att, avg_value)
+                    else:
+                        new_new_dataset = self.negative_examples(new_dataset, selected_att)
+                        new_tree.root.children[1].children[1] = Node(selected_att, avg_value)
+            attributes.remove(selected_att)
+        return new_tree
+
+    def build_random_tree(self, dataset):
+        split_dataset = dataset
+        attributes = dataset.get_columns_names()[2:len(dataset.get_columns_names())-1]
+        new_tree = DecisionTree()
+
+        while attributes != []:
+            random_att = attributes[random.randint(0, len(attributes)-1)]                
+            avg_value = self.avg_attribute(dataset, random_att)
+            if new_tree.root == None:
+                new_tree.set_root(random_att, avg_value)
+            else:
+                random_att_2 = attributes[random.randint(0, len(attributes)-1)]                
+                avg_value_2 = self.avg_attribute(dataset, random_att_2)
+                new_tree.root.children += [Node(random_att, avg_value), Node(random_att_2, avg_value_2)]
+                attributes.remove(random_att_2)
+            attributes.remove(random_att)
+
+        return new_tree
+        
+
+
 """
     def significance_test(self, subsets, dataset, attribute):
         totalBenign = 0
@@ -92,6 +172,8 @@ class DecisionTreeSolver:
 
         return result
 """
+
+
 
 
 

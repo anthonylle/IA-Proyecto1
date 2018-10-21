@@ -1,16 +1,16 @@
-#------ librerias 
+#------ libreries
 import numpy as np
 import pandas as pd
-#funcion para pasar valores numericos
-from scipy.stats import zscore
-from Proyecto.DataSet.DataFrame import DataFrame
-import math as m
-import copy as c
+from Proyecto.Normalizer.CategoricalValues import CategoricalValues
+from Proyecto.Normalizer.NumberValues import NumberValues
 
 class Normalizer():
     
     # ------ functions -----------   
-        
+
+    def __init__(self):
+        self.number_values = NumberValues()
+        self.categorical_values = CategoricalValues()
     # ------------------------------------------------------------
     # input: instance of a varible
     # function: check type of variable
@@ -24,15 +24,15 @@ class Normalizer():
         elif (isinstance(value, np.int64)) or (isinstance(value, int )) or (isinstance(value, float)):
             return 2
         return self.error
-    
+
     # ------------------------------------------------------------
     # input: none
-    # function: 
+    # function:
     # output:
     def normalizer_categorical_values(self,current_column, column_name):
-        one_hot = pd.get_dummies( current_column[column_name])
-        self.dumies_tags(current_column, column_name)
-        return one_hot  
+        one_hot = self.categorical_values.one_hot(current_column,column_name)
+        ##pd.get_dummies( current_column[column_name])
+        return one_hot
     
     # -----------------------------------------------------------
     # input: none
@@ -43,12 +43,11 @@ class Normalizer():
         _type = self.checker_type(column_value)
         
         if _type == 1:
-            # return self.normalizer_categorical_values(current_column, column_name)
-            return self.one_hot(current_column, column_name)
+            return self.categorical_values.one_hot(current_column,column_name)
+
         elif _type == 2:
-            return self.z_score(current_column, column_name)
+            return self.number_values.z_score(current_column, column_name)
             #return current_column.apply(zscore)
-        
         else:
             print("column doesn't have valid type")
                 
@@ -99,120 +98,13 @@ class Normalizer():
         columns_names = data_frame.columns
         
         for i in range(len(first_row)):
+            #print(data_frame)
             current_col = self.get_current_column(data_frame,i)
+            #print("sin normalixar: ", columns_names[i])
+            #print(current_col)
             current_col = self.normalizer_column(first_row[i], current_col, columns_names[i])
-            temp_df= self.join_data(temp_df, current_col)
+            #print("normalizado: ", columns_names[i])
+            #print(current_col)
+            temp_df = self.join_data(temp_df, current_col)
+
         return temp_df
-
-    #  --------------Z score-----------------------------------
-
-    # -----------------------------------------------------------
-    # input: int: media , list of x values
-    # function: sum all square of  x- media
-    # output: int: sum
-    def square_sum(self, media, Xs):
-        sum = 0
-        for i in range(len(Xs)):
-            sub = Xs[i][0] - media
-            temp = pow(sub, 2)
-            sum = sum + temp
-        return sum
-
-    # -----------------------------------------------------------
-    # input: int: n, int: media, list of x values
-    # function: calculate standar desviation
-    # output: number with the standar desviation
-    def stand_deviation(self, n, media, Xs):
-
-        square_sum = self.square_sum(media, Xs)
-        sq_div_n = square_sum / n
-        sqrt = m.sqrt(sq_div_n)
-
-        return sqrt
-
-    # -----------------------------------------------------------
-    # input: list of x values, int: media, int: standar desviation
-    # function: do z score formula
-    # output: list with the scores
-    def z_score_formula(self, Xs, media, stand_desviation):
-
-        scores = []
-
-        for i in range(len(Xs)):
-            result = (Xs[i][0] - media) / stand_desviation
-            scores += [[result]]
-        return scores
-
-    # -----------------------------------------------------------
-    # input: list of scores, string: name of column
-    # function: create a dataframe column
-    # output: pandas dataframe
-    def zs_column(self, data, name):
-
-        df = pd.DataFrame(data, columns=[name])
-        return df
-    # -----------------------------------------------------------
-    # input: a pandas series
-    # function: convert a pandas series in a int
-    # output: a number
-    def series_toInt(self, pd_series):
-        ltemp = pd_series.tolist()
-        return ltemp[0]
-
-    # -----------------------------------------------------------
-    # input: pandas dataframes, string: column name
-    # function: do the calculate of s-score
-    # output: pandas dataframe
-    def z_score(self, data_set, column_name):
-        sum = self.series_toInt(data_set.sum())
-        n = data_set.shape[0]
-        media = sum / n
-        Xs = data_set.iloc[:, :].values
-        # nparray to list
-        Xs = Xs.tolist()
-        stand_desviation = self.stand_deviation(n, media, Xs)
-        data = self.z_score_formula(Xs, media, stand_desviation)
-        df = self.zs_column(data, column_name)
-        return df
-
-
-    # ----------------------One hot---------------------------
-    # ------------------------------------------------------------------
-    # input:
-    # function:
-    # output:
-    # columns have de form [value],...,[value]]
-    def get_dictionary_tasg(self, column_classes):
-        dictionary = {}
-        for item in column_classes:
-            dictionary[item[0]] = 0
-        return dictionary
-
-    # ------------------------------------------------------------------
-    # input:
-    # function:
-    # output:
-    def  biuld_dumies(self, data_list, dictionary_classes):
-        dumies = []
-        for item in data_list:
-            classes_copy = c.deepcopy(dictionary_classes)
-            classes_copy[item[0]] = 1
-            dumies += [classes_copy]
-        return dumies
-
-    # ------------------------------------------------------------------
-    # input:
-    # function:
-    # output:
-    def dumies_tags(self, data_set, column_tag):
-        classes = data_set.unique_values_in_column(column_tag)
-        classes = classes.tolist()
-        return self.get_dictionary_tasg(classes)
-
-    def one_hot(self, data_set, column_tag ):
-        df = DataFrame()
-        df.data_set = data_set
-        data_list = df.get_all_values().tolist()
-        dumies = self.dumies_tags(df, column_tag)
-        dumies = self.biuld_dumies(data_list, dumies)
-        return pd.DataFrame(dumies)

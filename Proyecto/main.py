@@ -5,10 +5,10 @@ def main():
     
 if __name__ == "__main__":
     main()    '''
-from NeuralNetwork.NeuralNetwork import NeuralNetwork
-from DataSet.DataFrame import DataFrame
-from Normalizer.Normalizer import Normalizer
-from KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
+from Proyecto.NeuralNetwork.NeuralNetwork import NeuralNetwork
+from Proyecto.DataSet.DataFrame import DataFrame
+from Proyecto.Normalizer.Normalizer import Normalizer
+from Proyecto.KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
 import argparse
 
 parser = argparse.ArgumentParser(description="Programa de predicción de datos utilizando Random Forests o Redes Neuronales", epilog="Eso es todo amigos")
@@ -24,13 +24,17 @@ net_group.add_argument("--numero-capas", type=int, default=1, metavar='', help="
 net_group.add_argument("--unidades-por-capa", type=int, default=1, metavar='', help="Cantidad de neuronas por capa en la Red Neuronal")
 net_group.add_argument("--funcion-activacion", type=str, default='relu', metavar='', help='Define la salida de los nodos en una Red Neuronal para un conjunto de entradas dado')
 
-args = parser.parse_args()
-
-data = DataFrame()
-data.load_data_set("breast-cancer-wisconsin-data.csv")
 normalizer = Normalizer()
-data.data_set = normalizer.normalize_data(data.data_set)
-print("DataSet: ", data.data_set)
+args = parser.parse_args()
+output = DataFrame()
+input = DataFrame()
+input.load_data_set("breast-cancer-wisconsin-data.csv")
+output.data_set = input.cut_column('diagnosis')
+input.drop_columns_by_name(['id'])
+data = input.data_set
+input.data_set = normalizer.normalize_data(data)
+input.join_data(output.data_set)
+
 validation = KFoldCrossValidation(10, 'diagnosis')
 
 if args.arbol:
@@ -38,6 +42,6 @@ if args.arbol:
 elif args.red_neuronal:
     model = NeuralNetwork()
     model.create_model(kwargs={"layers": args.numero_capas, "units": args.unidades_por_capa, "activation": args.funcion_activacion})
-    validation.k_fold_validation(data, model=model)
+    validation.k_fold_validation(input, model=model)
 else:
     print("Debe elegir --arbol o sino --red-neuronal")

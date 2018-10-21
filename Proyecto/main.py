@@ -5,7 +5,7 @@ def main():
     
 if __name__ == "__main__":
     main()    '''
-from Proyecto.NeuralNetwork.NeuralNetwork import NeuralNetwork
+from NeuralNetwork.NeuralNetwork import NeuralNetwork
 import argparse
 
 parser = argparse.ArgumentParser(description="Programa de predicción de datos utilizando Random Forests o Redes Neuronales", epilog="Eso es todo amigos")

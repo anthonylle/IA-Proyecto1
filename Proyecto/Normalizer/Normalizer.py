@@ -1,8 +1,8 @@
 #------ libreries
 import numpy as np
 import pandas as pd
-from Proyecto.Normalizer.CategoricalValues import CategoricalValues
-from Proyecto.Normalizer.NumberValues import NumberValues
+from Normalizer.CategoricalValues import CategoricalValues
+from Normalizer.NumberValues import NumberValues
 
 class Normalizer():
     

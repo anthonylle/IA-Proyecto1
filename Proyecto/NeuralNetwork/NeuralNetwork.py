@@ -30,9 +30,7 @@ class NeuralNetwork(Model):
             self.model.add(Dense(no_units, activation=activation_function))
 
     def train_model(self, x_train_data, y_train_data):
-        #print("X_train_data", x_train_data)
-        #print("Y_train_data", y_train_data)
-        '''
+        """
         x_val_data = DataFrame()
         x_val_data.data_set = x_train_data
         x_train_data = x_val_data.sub_data_set(0, x_val_data.size()-25)
@@ -42,8 +40,8 @@ class NeuralNetwork(Model):
         y_val_data.data_set = y_train_data
         y_train_data = y_val_data.sub_data_set(0, y_val_data.size()-25)
         y_val_data.data_set = y_val_data.sub_data_set(y_val_data.size()-25, y_val_data.size()-1)
-        '''
-        self.model.fit(x_train_data, y_train_data, epochs=20, batch_size=28)#, validation_data=(x_val_data, y_val_data), batch_size=57)
+        """
+        self.model.fit(x_train_data, y_train_data)#, validation_data=(x_train_data, y_train_data), batch_size=57)
 
     def evaluate_model(self, x_test_data, y_test_data):
         return self.model.evaluate_model(x_test_data, y_test_data)
@@ -53,18 +51,28 @@ class NeuralNetwork(Model):
 
 
 model = NeuralNetwork()
-normalizer = Normalizer()
-output = DataFrame()
+# create data_frame to input
 input = DataFrame()
+# create data_frame to output
+output = DataFrame()
+# create normalizer
+normalizer = Normalizer()
+
 input.load_data_set("breast-cancer-wisconsin-data.csv")
+# drop innecesary columns in the input
+#input.view()
+input.drop_columns_by_name(["id"])
+#input.view()
 output.data_set = input.cut_column('diagnosis')
-input.drop_columns_by_name(['id'])
+#input.view()
+# normalizer data
 data = input.data_set
 input.data_set = normalizer.normalize_data(data)
-input.join_data(output.data_set)
-validation = KFoldCrossValidation(10, 'diagnosis')
-
-
+#input.join_data(output.data_set)
+#validation = KFoldCrossValidation(10, 'diagnosis')
 model.create_model(kwargs={"units": 2, "layers": 5, "activation": "sigmoid"})
-validation.k_fold_validation(input, model=model)
+print("Input: ", input.data_set)
+
+#model.train_model(input.data_set, o utput.data_set)
+#validation.k_fold_validation(input, model=model)
 

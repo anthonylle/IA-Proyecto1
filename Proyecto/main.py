@@ -1,8 +1,11 @@
-from Proyecto.NeuralNetwork.neural_network import NeuralNetwork
-from Proyecto.DataSet.DataFrame import DataFrame
-from Proyecto.Normalizer.Normalizer import Normalizer
-from Proyecto.KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
+'''from ..pruebas import normalizer_data
 
+def main():
+    normalizer_data()
+    
+if __name__ == "__main__":
+    main()    '''
+from Proyecto.NeuralNetwork.NeuralNetwork import NeuralNetwork
 import argparse
 
 parser = argparse.ArgumentParser(description="Programa de predicción de datos utilizando Random Forests o Redes Neuronales", epilog="Eso es todo amigos")
@@ -20,21 +23,8 @@ net_group.add_argument("--funcion-activacion", type=str, default='relu', metavar
 
 args = parser.parse_args()
 
-# Load Data
-data_set = DataFrame()
-data_set.load_data_set("breast-cancer-wisconsin-data.csv")
-
-# Normalize it
-normalizer = Normalizer()
-data = data_set.data_set
-data.data_set = normalizer.normalize_data(data)
-
-# Validation
-validation = KFoldCrossValidation(10, 'diagnosis')
-
-
 if args.arbol:
-    print("Arbol ha sido seleccionado")
+    print("Arbol has been chosen")
 
 
 elif args.red_neuronal:

@@ -1,5 +1,6 @@
-from Folds.Folds import Folds
-from Model.Model import Model
+from Proyecto.Folds.Folds import Folds
+from Proyecto.Model.Model import Model
+from Proyecto.DataSet.DataFrame import DataFrame
 
 class KFoldCrossValidation():
 
@@ -38,12 +39,11 @@ class KFoldCrossValidation():
             model.train_model(x_training, y_training)
 
             # test section
-            error, accuracy = model.evaluate_model(x_test, y_test)
-            #error = 3
+            #error = model.evaluate_model(x_test, y_test)
+            error = 3
             self.errors.append(error)
 
         self.mean_error = sum(self.errors) / self.k
-        print("Error: ", self.mean_error)
 
 
 

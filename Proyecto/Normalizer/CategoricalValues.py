@@ -1,6 +1,6 @@
 
 from scipy.stats import zscore
-from Proyecto.DataSet.DataFrame import DataFrame
+from DataSet.DataFrame import DataFrame
 import pandas as pd
 import copy as c
 

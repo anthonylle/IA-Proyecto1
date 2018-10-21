@@ -1,6 +1,6 @@
-from Proyecto.Normalizer.Normalizer import Normalizer
-from Proyecto.DataSet.DataFrame import DataFrame
-from Proyecto.KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
+from Normalizer.Normalizer import Normalizer
+from DataSet.DataFrame import DataFrame
+from KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
 
 def prueba():
     

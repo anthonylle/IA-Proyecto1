@@ -43,7 +43,7 @@ Las librerías requeridas son:
 La que más trabajo lleva es la de tensorflow, ya que en algunos casos el paquete no es reconocido luego de su instalación. Para instalarlo con ```pip``` se utiliza:
 
 ```
-pip install --ignore-installed --upgrade \ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.11.0-py3-none-any.whl
+(trabajo)$ pip install --ignore-installed --upgrade \ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.11.0-py3-none-any.whl
 ```
 Se puede verificar que esté instalado ejecutando los siguientes comandos:
 

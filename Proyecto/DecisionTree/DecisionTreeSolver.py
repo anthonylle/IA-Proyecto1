@@ -122,27 +122,6 @@ class DecisionTreeSolver:
             attributes.remove(selected_att)
         return new_tree
 
-    def build_random_tree(self, dataset):
-        split_dataset = dataset
-        attributes = dataset.get_columns_names()[2:len(dataset.get_columns_names())-1]
-        new_tree = DecisionTree()
-
-        while attributes != []:
-            random_att = attributes[random.randint(0, len(attributes)-1)]                
-            avg_value = self.avg_attribute(dataset, random_att)
-            if new_tree.root == None:
-                new_tree.set_root(random_att, avg_value)
-            else:
-                random_att_2 = attributes[random.randint(0, len(attributes)-1)]                
-                avg_value_2 = self.avg_attribute(dataset, random_att_2)
-                new_tree.root.children += [Node(random_att, avg_value), Node(random_att_2, avg_value_2)]
-                attributes.remove(random_att_2)
-            attributes.remove(random_att)
-
-        return new_tree
-        
-
-
 """
     def significance_test(self, subsets, dataset, attribute):
         totalBenign = 0

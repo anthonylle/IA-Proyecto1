@@ -10,7 +10,7 @@ class KFoldCrossValidation():
         self.output_column = output_column
         self.errors = list()
         self.mean_error = 0
-
+        self.report = str()
     # input: object of DataFrame class
     # function: genered the folds
     # output: none
@@ -31,7 +31,6 @@ class KFoldCrossValidation():
 
         self.genered_folds(data_frame)
 
-
         for i in range(self.folds.size()):
             x_training, y_training, x_test, y_test = self.get_data_sets(i)
 
@@ -45,6 +44,8 @@ class KFoldCrossValidation():
 
         self.mean_error = sum(self.errors) / self.k
 
+        self.generate_report(data_frame)
+        return self.mean_error
 
 
 
@@ -79,3 +80,32 @@ class KFoldCrossValidation():
             # call the function concat_data and get a data_set
             training_set.concat_data(training_list[i].data_set)
         return training_set
+
+    def generate_report(self, data_frame):
+        text =str()
+        text += "----------------------------- REPORT -------------------------\n"
+        text += ">>> X : \n"
+        columns= data_frame.get_columns_names()
+        for column in columns:
+            if column != self.output_column:
+                text += "  > "+column+"\n"
+
+        text += ">>> Y: \n"
+        text += "  > "+self.output_column+"\n"
+
+        text += ">>> clases in Y: \n"
+        classes = data_frame.unique_values_in_column(self.output_column)
+        for _class in classes:
+            text += "  > " + _class[0] + "\n"
+
+
+        training_error = str(self.mean_error)
+        text += ">>>Mean training error: "+training_error+"\n"
+        text += ">>> Training error for iteration: \n"
+        for i in range(len(self.errors)):
+            text += "  > "+str(i)+": "+str(self.errors[i])+"\n"
+
+        self.report = text
+
+    def view_report(self):
+        print(self.report)

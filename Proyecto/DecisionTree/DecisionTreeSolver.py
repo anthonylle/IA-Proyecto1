@@ -1,8 +1,12 @@
 import pandas as pd
+<<<<<<< HEAD
 from DataFrame import DataFrame
 from DecisionTree import DecisionTree 
 #from Proyecto.DataSet.DataFrame import DataFrame
 import random
+=======
+from Proyecto.DataSet.DataFrame import DataFrame
+>>>>>>> d5f6e9873edd568975fdf2071b62b6aeefd81b4b
 import math
 import csv
 

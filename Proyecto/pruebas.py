@@ -1,84 +1,56 @@
-from Proyecto.Normalizer.Normalizer import Normalizer
-from Proyecto.DataSet.DataFrame import DataFrame
-from Proyecto.Folds.Folds import Folds
-from Proyecto.KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
-import pandas as pd
-def normalizer_data():
+from Normalizer.Normalizer import Normalizer
+from DataSet.DataFrame import DataFrame
+from KFoldCrossValidation.KFoldCrossValidation import KFoldCrossValidation
+
+def prueba():
     
-    # create data_frame to idenpendents_vars
-    idenpendents_vars = DataFrame()
-    # create data_frame to objective_var
-    objective_var = DataFrame()
+    # create data_frame to input
+    data = DataFrame()
+    # create data_frame to output
+    output = DataFrame()
     # create normalizer 
     normalizer = Normalizer()
 
-    idenpendents_vars.load_data_set("Churn_Modelling.csv")
-    # drop innecesary columns in the idenpendents_vars
-    idenpendents_vars.drop_columns_by_name(["RowNumber","CustomerId","Surname"])
+    data.load_data_set("breast-cancer-wisconsin-data.csv")
 
-    objective_var.data_set = idenpendents_vars.cut_column("Exited")
-    
-    # normalizer data
-    data = idenpendents_vars.data_set
-    idenpendents_vars.data_set = normalizer.normalize_data(data)
-    
-    data = objective_var.data_set
-    objective_var.data_set = normalizer.normalize_data(data)
-
-
-def pruebaFolds():
-    idenpendents_vars = DataFrame()
-    # create data_frame to objective_var
-    objective_var = DataFrame()
-    # create normalizer 
-    normalizer = Normalizer()
-    idenpendents_vars.load_data_set("Churn_Modelling.csv")
-    # drop innecesary columns in the idenpendents_vars
-    idenpendents_vars.drop_columns_by_name(["RowNumber","CustomerId","Surname"])
-    # take column from idenpendents_vars
-    objective_var.data_set = idenpendents_vars.cut_column("Exited")
-    
-    #normalizer data
-    data =idenpendents_vars.data_set
-    idenpendents_vars.data_set = normalizer.normalize_data(data)
-    
-    idenpendents_vars.join_data(objective_var.data_set)
-    
-    cv = KFoldCrossValidation(10, "Exited")
-    cv.k_fold_validation(idenpendents_vars)
-
-def pruebaZScore():
-    data = DataFrame()
-    # create data_frame to objective_var
-    column = DataFrame()
-    # create normalizer
-    normalizer = Normalizer()
-    data.load_data_set('Churn_Modelling.csv')
-
-    # drop innecesary columns in the idenpendents_vars
-    data.drop_columns_by_name(["RowNumber", "CustomerId", "Surname"])
-    # take a number column
-    column.data_set = data.cut_column("CreditScore")
-    # normalizer data
-    df = column.data_set
-    column.data_set = normalizer.normalize_data(df)
-
-def prubasOneHot():
-    data = DataFrame()
-    # create data_frame to objective_var
-    column = DataFrame()
-    # create normalizer
-    normalizer = Normalizer()
-    data.load_data_set('breast-cancer-wisconsin-data.csv')
-
-    # drop innecesary columns in the idenpendents_vars
     data.drop_columns_by_name(["id"])
-    # take a number column
-    column.data_set = data.cut_column("diagnosis")
-    # normalizer data
-    df = column.data_set
-    column.view()
-    column.data_set = normalizer.normalize_data(df)
-    column.view()
 
-prubasOneHot()
+    output.data_set = data.cut_column('diagnosis')
+
+
+    data = data.data_set
+    data.data_set = normalizer.normalize_data(data)
+
+    data.join_data(output.data_set)
+
+
+    cv = KFoldCrossValidation(10, "diagnosis")
+    cv.k_fold_validation(data)
+    cv.view_report()
+
+
+def prueba2():
+    # create data_frame to input
+    input = DataFrame()
+    # create data_frame to output
+    output = DataFrame()
+    # create normalizer
+    normalizer = Normalizer()
+
+    input.load_data_set("Churn_Modelling.csv")
+    # drop innecesary columns in the input
+
+    input.drop_columns_by_name(["RowNumber", "CustomerId", "Surname"])
+
+    output.data_set = input.cut_column('Exited')
+
+    # normalizer data
+    data = input.data_set
+    input.data_set = normalizer.normalize_data(data)
+    input.join_data(output.data_set)
+
+    cv = KFoldCrossValidation(10, "Exited")
+    cv.k_fold_validation(input)
+    cv.view_report()
+
+prueba2()

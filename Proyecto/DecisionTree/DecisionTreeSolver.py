@@ -1,6 +1,5 @@
 import pandas as pd
-from DataFrame import DataFrame
-#from Proyecto.DataSet.DataFrame import DataFrame
+from Proyecto.DataSet.DataFrame import DataFrame
 import math
 import csv
 

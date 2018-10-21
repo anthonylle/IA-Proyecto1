@@ -27,6 +27,7 @@ def prueba():
     #input.view()
     cv = KFoldCrossValidation(10, "diagnosis")
     cv.k_fold_validation(input)
+    cv.view_report()
 
 
 def prueba2():
@@ -51,5 +52,6 @@ def prueba2():
 
     cv = KFoldCrossValidation(10, "Exited")
     cv.k_fold_validation(input)
+    cv.view_report()
 
 prueba()

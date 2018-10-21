@@ -54,4 +54,4 @@ def prueba2():
     cv.k_fold_validation(input)
     cv.view_report()
 
-prueba()
+prueba2()

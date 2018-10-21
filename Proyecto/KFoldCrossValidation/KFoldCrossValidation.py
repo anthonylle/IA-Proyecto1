@@ -1,6 +1,6 @@
 from Folds.Folds import Folds
 from Model.Model import Model
-
+import pandas as pd
 class KFoldCrossValidation():
 
     def __init__(self, k, output_column):
@@ -119,4 +119,12 @@ class KFoldCrossValidation():
 
 
     def prediction(self, dataframe, model = Model()):
-        pass
+
+        x_predict, y_predict = self.split_data(dataframe)
+        Ys = model.predict(x_predict, y_predict)
+        predict_data = Ys.tolist()
+
+        new_column = pd.DataFrame(predict_data, columns=["Predict_column"])
+        dataframe.join_data(new_column)
+        dataframe.to_csv("Predict_file.csv")
+        return dataframe

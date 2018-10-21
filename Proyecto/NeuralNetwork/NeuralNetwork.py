@@ -31,13 +31,5 @@ class NeuralNetwork(Model):
     def evaluate_model(self, x_test_data, y_test_data):
         return self.model.evaluate_model(x_test_data, y_test_data)
 
-
-
-instance = NeuralNetwork()
-instance.load_data()
-instance.normalize_data()
-instance.assign_data()
-instance.create_model(kwargs={"layers": 5, "units": 2, "activation":"softmax"})
-instance.train_model()
-accuracy = instance.model.evaluate(instance.x_test_data, instance.y_test_data)
-print("Accuracy: ", accuracy)
+    def predict(self, x_data):
+        return self.model.predict(x_data)

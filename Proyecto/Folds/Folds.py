@@ -1,4 +1,4 @@
-from Proyecto.DataSet.DataFrame import DataFrame
+from DataSet.DataFrame import DataFrame
 import math
 import copy as c
 

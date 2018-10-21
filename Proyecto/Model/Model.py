@@ -25,3 +25,6 @@ class Model(metaclass=ABCMeta):
 
     def evaluate_model(self, x_test_data, y_test_data):
         pass
+
+    def predict(self, x_data):
+        pass

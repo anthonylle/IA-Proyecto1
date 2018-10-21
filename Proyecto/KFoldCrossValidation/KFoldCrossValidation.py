@@ -80,6 +80,10 @@ class KFoldCrossValidation():
             training_set.concat_data(training_list[i].data_set)
         return training_set
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # input: a objects of my DataFrame class
+    # function: generate a report string
+    # output: none
     def generate_report(self, data_frame):
         text =str()
         text += "----------------------------- REPORT -------------------------\n"
@@ -95,7 +99,7 @@ class KFoldCrossValidation():
         text += ">>> clases in Y: \n"
         classes = data_frame.unique_values_in_column(self.output_column)
         for _class in classes:
-            text += "  > " + _class[0] + "\n"
+            text += "  > " + str(_class[0]) + "\n"
 
 
         training_error = str(self.mean_error)
@@ -106,5 +110,13 @@ class KFoldCrossValidation():
 
         self.report = text
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # input: none
+    # function: print the report string
+    # output: none
     def view_report(self):
         print(self.report)
+
+
+    def prediction(self, dataframe, model = Model()):
+        pass

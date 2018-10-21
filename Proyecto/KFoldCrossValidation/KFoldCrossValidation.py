@@ -1,5 +1,5 @@
-from Folds.Folds import Folds
-from Model.Model import Model
+from Proyecto.Folds.Folds import Folds
+from Proyecto.Model.Model import Model
 
 class KFoldCrossValidation():
 

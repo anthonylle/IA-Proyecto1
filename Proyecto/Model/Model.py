@@ -1,6 +1,5 @@
 from abc import ABCMeta
 
-
 class Model(metaclass=ABCMeta):
     def load_data(self):
         pass
